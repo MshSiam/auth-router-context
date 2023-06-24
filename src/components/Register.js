@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../context/UsesrContext";
 
 const Register = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, signInWithGoogle } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -79,6 +79,9 @@ const Register = () => {
               </div>
               <div className="form-control mt-6">
                 <button className="btn btn-primary">Register</button>
+                <button onClick={signInWithGoogle} className="btn btn-success">
+                  Google
+                </button>
               </div>
             </form>
           </div>
