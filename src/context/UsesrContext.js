@@ -9,13 +9,14 @@ import {
   signOut,
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 const auth = getAuth(app);
 
 const UsesrContext = ({ children }) => {
-  const [user, setUSer] = useState({ displayName: "siam" });
-
+  const [user, setUSer] = useState({});
+  const [loading, setLoading] = useState(true);
   const googleProvider = new GoogleAuthProvider();
 
   const createUser = (email, password) => {
@@ -36,6 +37,7 @@ const UsesrContext = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUSer(currentUser);
+      setLoading(false);
       console.log("authstatechange", currentUser);
     });
     return () => {
@@ -43,7 +45,14 @@ const UsesrContext = ({ children }) => {
     };
   }, []);
 
-  const authInfo = { user, createUser, signIn, logOut, signInWithGoogle };
+  const authInfo = {
+    user,
+    loading,
+    createUser,
+    signIn,
+    logOut,
+    signInWithGoogle,
+  };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   );
